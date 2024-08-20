@@ -10,8 +10,10 @@
 ## Run the program:
 
 - To run the program, run the command in the terminal:
-    - ```python parser.py <input_log.csv> <lookup_table.csv>```
-    - replace `input_log.csv` with the input log file and `lookup_table.csv` with the lookup table file.
+    - ```python parser.py <input_log.csv> <lookup_table.csv> <output_filename>```
+    - replace `input_log.csv` with the input log file, `lookup_table.csv` with the lookup table file, and `output_filename` with the name of the output file.
+- To run the test cases, run the command in the terminal:
+    - ```python -m unittest parser_test.py```
 
 ## Assumptions:
 
@@ -20,3 +22,5 @@
 - The logs are of the fixed specified format. The program should be able to handle from Versions 2-7 as long as the fields in V2 are in the same order and not null.
 - The matches are case-insensitive.
 - The tags can map to more than one port-protocol combinations.
+- The file written to is of TXT format.
+- The test case file deletes the files it creates. If any existing file exists in the directory and has the same name as one of the files being used in the code, it will get deleted.

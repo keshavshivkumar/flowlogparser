@@ -11,10 +11,12 @@
 
 - To run the program, run the command in the terminal:
     - ```python parser.py <input_log.csv> <lookup_table.csv>```
-    - where `input_log.csv` is the input log file and `lookup_table.csv` is the lookup table file.
+    - replace `input_log.csv` with the input log file and `lookup_table.csv` with the lookup table file.
 
 ## Assumptions:
 
+- The input and lookup table files are of CSV format, at least the data should be in the comma-separated format.
+- The protocol names are case insensitive.
 - The logs are of the fixed specified format. The program should be able to handle from Versions 2-7 as long as the fields in V2 are in the same order and not null.
 - The matches are case-insensitive.
 - The tags can map to more than one port-protocol combinations.

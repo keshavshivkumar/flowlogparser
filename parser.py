@@ -1,10 +1,21 @@
 import sys
 
-def log_parser(input_file, lookup_table, output_file):
+def log_parser(input_file: str, lookup_table: str, output_file: str) -> None:
     '''
     Takes in an input log file and lookup table file, both in comma-separated format, 
     and matches the dsport-protocol_name pairs to their counts as well as their tags, 
     which is also matched to their counts.
+
+    Args:
+        input_file: comma-separated logs file
+        lookup_table: comma-separated lookup table file
+        output_file: comma-separated output file
+    
+    Raises:
+        FileNotFountError
+        IndexError
+        KeyError
+        IOError
     '''
     try:
         with open(lookup_table, 'r') as lookup:
@@ -76,10 +87,15 @@ def log_parser(input_file, lookup_table, output_file):
         print(f'\nError writing to output file: {e}')
         sys.exit(1)
 
-def write_data(tag_counts, port_protocol_counts, output_file):
+def write_data(tag_counts: dict, port_protocol_counts: dict, output_file: str) -> None:
     '''
     Writes the data obtained from the input logs and lookup table to an output file.
     The two dictionaries and output file name are the parameters.
+
+    Args:
+        tag_counts: tag, count dictionary
+        port_protocol_counts: port-protcol, count dictionary
+        output_file: comma-separated output file
     '''
     with open(output_file, 'w') as f: # writing to output file
         f.write('Tag Counts:\n')
@@ -93,6 +109,7 @@ def write_data(tag_counts, port_protocol_counts, output_file):
             f.write(f'{p[0]},{p[1]},{c}\n')
     print(f'\nTag Counts: {tag_counts}\nPort-Protocol Counts:{port_protocol_counts}\nWrote to {output_file}...\nExiting\n')    
 
+# Global variable
 protocol_map = {}
 with open('protocol-numbers.csv', 'r') as p:
     for protocol in p.readlines()[1:]:

@@ -15,6 +15,7 @@
     - replace `<input_log.ext>` with the input log file, `<lookup_table.ext>` with the lookup table file, and `<output_filename.ext>` with the name of the output file (where `ext` is the extension, either `csv` or `txt`).
 - To run the test cases, run the command in the terminal:
     - ```python -m unittest parser_test.py```
+    - The test file requires a `sampleinput.csv` and `samplelookuptable.csv`.
 
 ## Assumptions:
 

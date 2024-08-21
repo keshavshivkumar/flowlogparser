@@ -3,9 +3,19 @@ import os
 from parser import log_parser
 
 class TestParser(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        super(TestParser, self).__init__(*args, **kwargs)
-        self.files_to_cleanup = []
+    def setUp(self):
+        self.input_file = 'test_input.csv'
+        self.lookup_file = 'test_lookup.csv'
+        self.output_file = 'test_output.csv'
+
+        with open(self.input_file, 'w') as f:
+            f.write("1,2,3,4,5,6,7,8,9,10,11,12,13,14\n")
+            f.write("1,2,3,4,5,6,7,8,9,10,80,12,13,6\n") 
+
+        with open(self.lookup_file, 'w') as f:
+            f.write("80,6,Tag1\n")
+
+        self.files_to_cleanup = [self.input_file, self.lookup_file, self.output_file]
 
     def assert_files(self, path1, path2):
         '''Assert the files/file paths are provided'''
@@ -56,12 +66,40 @@ class TestParser(unittest.TestCase):
         self.assertEqual(cm.exception.code, 1)
         self.files_to_cleanup.extend([empty_input, empty_lookup, output_file])
 
+    def test_tag_counts(self):
+        '''Test that the code correctly tracks the counts of the tags'''
+        log_parser(self.input_file, self.lookup_file, self.output_file)
+        with open(self.output_file, 'r') as f:
+            output = f.read()
+
+        self.assertIn('tag1,1\n', output)
+
+    def test_port_protocol_counts(self):
+        '''Test that the code correctly tracks the counts of the port-protocol pairs'''
+        log_parser(self.input_file, self.lookup_file, self.output_file)
+        with open(self.output_file, 'r') as f:
+            output = f.read()
+
+        self.assertIn('80,tcp,1\n', output)
+
+    def test_no_matching_tag(self):
+        '''Test that the code correctly tracks the counts of the untagged'''
+        with open(self.lookup_file, 'a') as f:
+            f.write("90,6,Tag1\n")  # adding a new tag that does not match in log file
+        log_parser(self.input_file, self.lookup_file, self.output_file)
+        with open(self.output_file, 'r') as f:
+            output = f.read()
+
+        self.assertIn('Untagged,1\n', output)
+
     def tearDown(self):
         '''Remove generated test files after each test'''
         for filename in self.files_to_cleanup:
-            try:
-                os.remove(filename)
-            except OSError as e:
-                print(f"Error: {filename} : {e.strerror}")
+            if os.path.exists(filename):
+                try:
+                    os.remove(filename)
+                except OSError as e:
+                    print(f"Error: {filename} : {e.strerror}")
+
 if __name__ == '__main__':
     unittest.main()

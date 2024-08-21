@@ -12,13 +12,13 @@ def log_parser(input_file, lookup_table, output_file):
             if not table[0][0].isdigit(): # if the column headings are provided
                 table = table[1:]
     except FileNotFoundError:
-        print(f"Error: The lookup table file was not found.")
+        print(f'\nError: The lookup table file was not found.')
         sys.exit(1)
     except IndexError:
-        print(f"Lookup table is empty!")
+        print(f'\nLookup table is empty!')
         sys.exit(1)
     except Exception as e:
-        print(f"An error occurred while reading the lookup table: {e}")
+        print(f'\nAn error occurred while reading the lookup table: {e}')
         sys.exit(1)
 
     try:
@@ -27,13 +27,13 @@ def log_parser(input_file, lookup_table, output_file):
             if not loglist[0][0].isdigit(): # if the column headings are provided
                 loglist = loglist[1:]
     except FileNotFoundError:
-        print(f"Error: The log file was not found.")
+        print(f'\nError: The log file was not found.')
         sys.exit(1)
     except IndexError:
-        print(f"Log input is empty!")
+        print(f'\nLog input is empty!')
         sys.exit(1)
     except Exception as e:
-        print(f"An error occurred while reading the logs: {e}")
+        print(f'\nAn error occurred while reading the logs: {e}')
         sys.exit(1)
     
     tag_counts = {} # stores the counts for the corresponding tag
@@ -56,24 +56,24 @@ def log_parser(input_file, lookup_table, output_file):
                 port_protocol_counts[key] = port_protocol_counts.get(key, 0) + 1
                 tag_counts[tag] = tag_counts.get(tag, 0) + 1
             else:
-                tag_counts['Untagged'] += 1
+                tag_counts['Untagged'] = tag_counts.get('Untagged', 0) + 1
 
     except KeyError as e:
-        print(f"KeyError: {e} was not found.")
+        print(f'\nKeyError: {e} was not found.')
         sys.exit(1)
 
     except IndexError as e:
-        print(f"IndexError: {e}")
+        print(f'\nIndexError: {e}')
         sys.exit(1)
 
     except Exception as e:
-        print(f"Unexpected error: {e}")
+        print(f'\nUnexpected error: {e}')
         sys.exit(1)
 
     try:
         write_data(tag_counts, port_protocol_counts, output_file)
     except IOError as e:
-        print(f"Error writing to output file: {e}")
+        print(f'\nError writing to output file: {e}')
         sys.exit(1)
 
 def write_data(tag_counts, port_protocol_counts, output_file):
@@ -91,9 +91,7 @@ def write_data(tag_counts, port_protocol_counts, output_file):
         f.write('Port,Protocol,Count\n')
         for p, c in port_protocol_counts.items():
             f.write(f'{p[0]},{p[1]},{c}\n')
-    print(f'Tag Counts: {tag_counts}\nPort-Protocol Counts:{port_protocol_counts}\nWrote to {output_file}...\nExiting\n')
-
-    
+    print(f'\nTag Counts: {tag_counts}\nPort-Protocol Counts:{port_protocol_counts}\nWrote to {output_file}...\nExiting\n')    
 
 protocol_map = {}
 with open('protocol-numbers.csv', 'r') as p:

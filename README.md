@@ -26,3 +26,9 @@
 - In the port-protocol pairs, `dstport` was taken to be the port.
 - The file written to will be of TXT/CSV format.
 - The test case file deletes the files it creates. If any existing file exists in the directory and happens to have the same name as one of the files being used in the code, it will get overwritten then deleted.
+
+## Analysis and Conclusion:
+
+- The code depends on the positions on the `dstport` and `protocol` in each row, and will fail/work inconsistently if this is violated.
+- The program can be improved using a tabular approach, possibly one that incorporates `pandas`.
+- The program should run in O(n) time complexity.

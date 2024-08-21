@@ -11,8 +11,8 @@
 ## Run the program:
 
 - To run the program, run the command in the terminal:
-    - ```python parser.py <input_log.csv> <lookup_table.csv> <output_filename>```
-    - replace `input_log.csv` with the input log file, `lookup_table.csv` with the lookup table file, and `output_filename` with the name of the output file.
+    - ```python parser.py <input_log.ext> <lookup_table.ext> <output_filename.ext>```
+    - replace `<input_log.ext>` with the input log file, `<lookup_table.ext>` with the lookup table file, and `<output_filename.ext>` with the name of the output file (where `ext` is the extension, either `csv` or `txt`).
 - To run the test cases, run the command in the terminal:
     - ```python -m unittest parser_test.py```
 
